@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receitas</title>
+    <title>Cadastro</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div class="left">
-            <h1 class="inicio">Bem-vindo de volta!</h1>
+            <h1>Bem-vindo(a)!</h1>
             <div class="img">
                 <img src="assets/ilustracao_sem_fundo 1.png" alt="">
             </div>
@@ -17,26 +17,17 @@
         </div>
 
         <div class="right">
-            <span><h2>LOGIN</h2></span>
+            <span><h2 class="new">Criar conta</h2></span>
 
             <form>
+                <input type="text" placeholder="Nome" required>
                 <input type="email" placeholder="Email" required>
                 <input type="password" placeholder="Senha" required>
+                <input type="password" placeholder="Confirmar senha" required>
             </form>
+            
+            <button type="submit" class="login">Cadastrar</button>
 
-            <div class="remember">
-                <label for="">
-                    <input type="checkbox">
-                    Lembre-me
-                </label>
-
-                <a href="#">Esqueci a senha</a>
-            </div>
-            <button type="submit" class="login">Entrar</button>
-
-            <div class="registro">
-                <p>Não tem uma conta? <a href="cadastro.html" target="_blank">Cadastre-se</a></p>
-            </div>
         </div>
     </div>
 </body>
