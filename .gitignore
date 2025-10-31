@@ -1,0 +1,10 @@
+/xampp/
+/webalizer/
+/bitnami/
+/dashboard/
+/applications/
+*.log
+*.tmp
+*.env
+/vendor/
+/node_modules/

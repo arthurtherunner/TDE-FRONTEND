@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receitas</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
     <div class="container">
@@ -19,10 +19,9 @@
         <div class="right">
             <span><h2>LOGIN</h2></span>
 
-            <form>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Senha" required>
-            </form>
+            <form action="backend/teste-login.php" method="POST">
+                <input type="email" name="email" id="email" placeholder="Email" required>
+                <input type="password"  name="senha" id="senha" placeholder="Senha" required>
 
             <div class="remember">
                 <label for="">
@@ -32,11 +31,13 @@
 
                 <a href="#">Esqueci a senha</a>
             </div>
-            <button type="submit" class="login">Entrar</button>
-
+            <button type="submit" name="submit" id="submit" class="login">Entrar</button>
+            </form>
             <div class="registro">
-                <p>Não tem uma conta? <a href="cadastro.html" target="_blank">Cadastre-se</a></p>
+                <p>Não tem uma conta? <a href="cadastro.php" target="_blank">Cadastre-se</a></p>
             </div>
+            </form>
+
         </div>
     </div>
 </body>
