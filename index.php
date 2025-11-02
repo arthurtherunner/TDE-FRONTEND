@@ -36,7 +36,6 @@
             <div class="registro">
                 <p>Não tem uma conta? <a href="cadastro.php" target="_blank">Cadastre-se</a></p>
             </div>
-            </form>
 
         </div>
     </div>
