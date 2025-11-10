@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Nata+Sans:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Teko:wght@300..700&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    width: 100%;
+    font-family: poppins;
+}
+
+.container{
+    display: flex;
+    height: 100vh;
+}
+
+.left{
+    width: 20%;
+    background-color: #E27D60;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.paragrafos{
+    margin: 10px;
+    margin-top: 150px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.paragrafos p{
+    padding: 1.5rem;
+}
+
+.right{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 40px;
+}
+
+img{
+    height: 280px;
+}
+
+.receitas{
+    flex: 0 1 45%;
+    text-align: center;
+}
+
+.desc {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    box-sizing: border-box;
+
+}
+
+.desc p{
+    font-size: 15px;
+}
+
+
+i{
+    color:  #E27D60;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+i:hover{
+    color: red;
+    transition: 1s;
+    font-size: 30px;
+}
