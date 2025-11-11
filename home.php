@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Receitas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="styles/home.css">
 </head>
@@ -12,14 +12,17 @@
         <div class="left">
             <!--add a mensages de boas vindas e o icon-->
             <div class="paragrafos">
-                <p>Início</p>
+                <a href="home.php">Início</a>
                 <hr>
-                <p>Receitas favoritas</p>
+                <a href="">Favoritas</a>
                 <hr>
-                <p>Sair</p>
+                <a href="index.php">Sair</a>
                 <hr>
+                <img src="assets/ilustracao_sem_fundo 1.png" alt="">
+                <p>Visualize suas receitas favoritas</p>
             </div>
         </div>
+
             <div class="right">
                 <div class="receitas">
                     <img src="assets/BOLO DE CHOCOLATE.png" alt="">

@@ -14,7 +14,7 @@
             <div class="img">
                 <img src="assets/ilustracao_sem_fundo 1.png" alt="">
             </div>
-            <p>Entre e compartilhe suas receitas favoritas!</p>
+            <p>Entre e visualize suas receitas favoritas!</p>
         </div>
 
         <div class="right">

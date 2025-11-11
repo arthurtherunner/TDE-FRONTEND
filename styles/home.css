@@ -30,8 +30,29 @@ body{
     font-size: 15px;
     cursor: pointer;
 }
+
+a{
+    display: inline-block;
+    margin: 10px;
+    text-decoration: none;
+    color: #fff;
+    margin-left: 25px;
+    margin-bottom: 10px;
+}
+
+hr{
+    border: 1px solid #FED8AC;
+    width: 95%;
+}
+
+.paragrafos img{
+    margin-top: 75px;
+    margin-left: 20px;
+}
+
 .paragrafos p{
-    padding: 1.5rem;
+    font-size: 15px;
+    text-align: center;
 }
 
 .right{
@@ -45,6 +66,7 @@ body{
 
 img{
     height: 280px;
+    cursor: pointer;
 }
 
 .receitas{
@@ -75,5 +97,4 @@ i{
 i:hover{
     color: red;
     transition: 1s;
-    font-size: 30px;
 }
