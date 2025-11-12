@@ -67,14 +67,14 @@ hr{
 }
 
 .right-total{
-    width: calc(100% - 320px); /* Calcula a largura descontando o sidebar */
+    width: calc(100% - 320px); 
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    margin-left: 320px; /* Adiciona margem igual à largura do sidebar */
-    padding: 0 20px; /* Adiciona um padding lateral */
-    transition: margin-left 0.4s ease; /* Transição suave */
+    margin-left: 320px; 
+    padding: 0 20px; 
+    transition: margin-left 0.4s ease; 
 }
 
 .right{
@@ -92,7 +92,7 @@ hr{
     border-radius: 15px;
     padding: 5px 10px;
     width: 100%;
-    max-width: 500px; /* Limita a largura máxima */
+    max-width: 500px; 
 }
 
 .search-container input {
@@ -100,7 +100,7 @@ hr{
     outline: none;
     font-size: 14px;
     font-family: Poppins;
-    width: 90%; /* Ajusta a largura do input */
+    width: 90%; 
 }
 
 .search-container i {
@@ -173,7 +173,7 @@ img{
     z-index: 1000;
 }
 
-/* Sidebar ativa (visível) */
+/* Sidebar ativa  */
 #sidebar.active {
     transform: translateX(0);
 }
@@ -209,7 +209,7 @@ img{
     font-size: 22px;
 }
 
-/* Menu principal */
+/* Menu */
 .menu {
     list-style: none;
     margin-top: 40px;
@@ -257,7 +257,7 @@ img{
     background-color: #E88A70;
 }
 
-/* Botão de abrir (☰) */
+/* Botão de abrir */
 .open-btn {
     position: absolute;
     top: 20px;
@@ -274,7 +274,7 @@ img{
 @media (min-width: 992px) {
     #sidebar {
         transform: translateX(0);
-        position: fixed; /* Mantém o sidebar fixo */
+        position: fixed; /* sidebar fixo */
     }
 
     .open-btn,
@@ -289,7 +289,7 @@ img{
     }
 }
 
-/* Para telas menores */
+
 @media (max-width: 991px) {
     #sidebar.active + .right-total {
         margin-left: 0;
