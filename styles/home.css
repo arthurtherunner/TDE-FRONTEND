@@ -17,18 +17,29 @@ body{
     height: 100vh;
 }
 
+.img-home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .left{
     width: 20%;
+    height: 100%;
     background-color: #E27D60;
     color: #fff;
-    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .paragrafos{
     margin: 10px;
     margin-top: 150px;
     font-size: 15px;
-    cursor: pointer;
+    
 }
 
 a{
@@ -55,46 +66,242 @@ hr{
     text-align: center;
 }
 
+.right-total{
+    width: calc(100% - 320px); /* Calcula a largura descontando o sidebar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 320px; /* Adiciona margem igual à largura do sidebar */
+    padding: 0 20px; /* Adiciona um padding lateral */
+    transition: margin-left 0.4s ease; /* Transição suave */
+}
+
 .right{
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: flex-start;
     padding: 40px;
+    gap: 65px;
+}
+
+.search-container{
+    border: 2px solid #E27D60;
+    border-radius: 15px;
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 500px; /* Limita a largura máxima */
+}
+
+.search-container input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: Poppins;
+    width: 90%; /* Ajusta a largura do input */
+}
+
+.search-container i {
+    color: #E27D60;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 img{
     height: 280px;
-    cursor: pointer;
 }
 
 .receitas{
     flex: 0 1 45%;
+    height: 400px;
     text-align: center;
+}
+
+.receitas img{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 10px;
 }
 
 .desc {
     text-align: center;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
     padding: 10px 15px;
     box-sizing: border-box;
-
+    gap: 20px;
 }
 
 .desc p{
     font-size: 15px;
+    cursor: pointer;
 }
 
-
-i{
+.desc i{
     color:  #E27D60;
     font-size: 15px;
     cursor: pointer;
 }
 
-i:hover{
+.desc i:hover{
     color: red;
     transition: 1s;
+}
+
+
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 321px;
+    height: 100vh;
+    background-color: #E27D60;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: 1000;
+}
+
+/* Sidebar ativa (visível) */
+#sidebar.active {
+    transform: translateX(0);
+}
+
+
+/* Ícone de fechar */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: block;
+}
+
+/* Seção do usuário */
+.user-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.user-section i {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.user-section h2 {
+    font-size: 22px;
+}
+
+/* Menu principal */
+.menu {
+    list-style: none;
+    margin-top: 40px;
+}
+
+.menu li {
+    margin-bottom: 15px;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.menu a:hover {
+    background-color: #E88A70;
+}
+
+/* Botão Sair */
+.logout {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.logout a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.logout a:hover {
+    background-color: #E88A70;
+}
+
+/* Botão de abrir (☰) */
+.open-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #421205;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+/* ====== RESPONSIVIDADE ====== */
+@media (min-width: 992px) {
+    #sidebar {
+        transform: translateX(0);
+        position: fixed; /* Mantém o sidebar fixo */
+    }
+
+    .open-btn,
+    .close-btn {
+        display: none;
+    }
+    
+    .right-total {
+        width: calc(100% - 320px);
+        margin-left: 320px;
+        padding: 0 20px;
+    }
+}
+
+/* Para telas menores */
+@media (max-width: 991px) {
+    #sidebar.active + .right-total {
+        margin-left: 0;
+        width: 100%;
+    }
+   
+    .right-total {
+        width: 100%;
+        margin-left: 0;
+        padding: 0 15px;
+    }
+    .receitas{
+        flex: 0 1 100%;
+    }
 }
