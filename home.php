@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +21,7 @@
                     <div class="sidebar-content">
                         <div class="user-section">
                             <i class="bi bi-person-circle"></i>
-                            <h2>Olá, Camila!</h2>
+                            <h2>Olá, <?php echo $_SESSION['nome'];?>!</h2>
                         </div>
 
                         <ul class="menu">

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     if(isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['senha'])){
         include_once('config.php');
 
@@ -13,6 +14,8 @@
             header('Location: ../index.php');
         }
         else{
+            $user = $result->fetch_assoc();
+            $_SESSION['nome'] = $user['nome'];
             header('Location: ../home.php');
         }
     }
