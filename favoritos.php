@@ -377,7 +377,7 @@
             <div class="sidebar-content">
                 <div class="user-section">
                     <i class="bi bi-person-circle"></i>
-                    <h2>Olá, Arthur!</h2>
+                    <h2>Olá, <?php echo $_SESSION['nome'];?>!</h2>
                 </div>
 
                 <ul class="menu">
