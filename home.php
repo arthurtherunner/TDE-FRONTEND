@@ -32,11 +32,10 @@
                         </ul>
                     </div>
                     
-
                     <ul class="logout">
-                        <li><a href="#"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                        <li><a href="index.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
                     </ul>
-            </nav>
+                </nav>
             <button id="openBtn" class="open-btn">
                 <i class="bi bi-list"></i>
             </button>
@@ -77,8 +76,9 @@
                 
                 </div>
         </div>
-    </div>
 
+        
+    </div>
     <script src="js/script.js"></script>
 </body>
 </html>
