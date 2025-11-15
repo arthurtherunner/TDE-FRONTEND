@@ -53,7 +53,6 @@
             </form>
         </div>
     </div>
-
     <script src="js/validacao.js"></script>
 </body>
 </html>
