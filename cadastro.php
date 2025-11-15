@@ -12,7 +12,6 @@
 
     header('Location: index.php');
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,14 +36,24 @@
         <div class="right">
             <span><h2 class="new">Criar conta</h2></span>
 
-            <form action="cadastro.php" method="POST">
+            <form id="formCadastro" action="cadastro.php" method="POST" novalidate>
                 <input type="text" name="nome" id="nome" placeholder="Nome" required>
+                <p class="erro"  id="erroNome"></p>
+
                 <input type="email" name="email" id="email" placeholder="Email" required>
+                <p class="erro"  id="erroEmail"></p>
+
                 <input type="password" name="senha" id="senha" placeholder="Senha" required>
-                <input type="password" placeholder="Confirmar senha" required>
+                <p class="erro"  id="erroSenha"></p>
+
+                <input id="confirmar_senha" type="password" placeholder="Confirmar senha" required>
+                <p class="erro"  id="erroConfirmar"></p>
+
                 <button type="submit" name="submit" id="submit" class="login">Cadastrar</button>
             </form>
         </div>
     </div>
+
+    <script src="js/validacao.js"></script>
 </body>
 </html>
