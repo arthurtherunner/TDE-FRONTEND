@@ -178,7 +178,9 @@ img{
     transform: translateX(0);
 }
 
-
+.favorite-heart {
+            color: red !important; 
+}
 /* Ícone de fechar */
 .close-btn {
     position: absolute;
