@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="styles/home.css">
 </head>
 <body>
-          <div class="container">
+    <div class="container">
         <nav id="sidebar">
             <button id="closeBtn" class="close-btn">
                 <i class="bi bi-x"></i>
@@ -44,7 +44,7 @@
         <div class="right-total">
             <div class="search-container">
                 <input type="text" placeholder="Pesquisar receita..." id="searchInput">
-                <i class="bi bi-search"></i>
+                <i class="bi bi-search" id="searchIcon"></i>
             </div>
             
             <div class="right" id="recipes-container">
@@ -81,9 +81,8 @@
                 </div>
             </div>
         </div>
-
-        
     </div>
+
     <script src="js/script.js"></script>
 </body>
 </html>
