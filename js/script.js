@@ -104,73 +104,120 @@ const RECIPES_DATA = {
     }
 };
 
-// Sistema de Pesquisa
+// Função principal de pesquisa
 function iniciarPesquisa() {
-    const searchInput = document.getElementById("searchInput");
-    const searchIcon = document.getElementById("searchIcon");
-
-    if (!searchInput) {
-        console.error("❌ searchInput não encontrado!");
-        return;
+    const campoPesquisa = document.getElementById('searchInput');
+    const receitas = document.querySelectorAll('.receitas');
+    
+    // Carregar última pesquisa do localStorage
+    const ultimaPesquisa = localStorage.getItem('ultimaPesquisa') || '';
+    campoPesquisa.value = ultimaPesquisa;
+    
+    // Aplicar filtro se houver última pesquisa
+    if (ultimaPesquisa) {
+        filtrarReceitas(ultimaPesquisa, receitas);
     }
-
-    // Função para executar a pesquisa
-    function executarPesquisa() {
-        const termo = searchInput.value.toLowerCase().trim();
-        const receitas = document.querySelectorAll(".receitas");
-        let encontrouResultados = false;
-
-        receitas.forEach(receita => {
-            const nome = receita.querySelector("p").textContent.toLowerCase();
-
-            if (nome.includes(termo)) {
-                receita.style.display = ""; // volta ao padrão original
-                encontrouResultados = true;
-            } else {
-                receita.style.display = "none"; 
-            }
-        });
-
-        // Mostrar mensagem se não houver resultados
-        const recipesContainer = document.getElementById("recipes-container");
-        let mensagemSemResultados = recipesContainer.querySelector(".no-results");
+    
+    // Pesquisa em tempo real
+    campoPesquisa.addEventListener('input', function(e) {
+        const termoPesquisa = e.target.value.toLowerCase().trim();
         
-        if (!encontrouResultados && termo !== '') {
-            if (!mensagemSemResultados) {
-                mensagemSemResultados = document.createElement('div');
-                mensagemSemResultados.className = 'no-results';
-                mensagemSemResultados.innerHTML = `
-                    <i class="bi bi-search"></i>
-                    <p>Nenhuma receita encontrada para "${termo}"</p>
-                    <p>Tente buscar por outro termo</p>
-                `;
-                recipesContainer.appendChild(mensagemSemResultados);
-            }
-        } else {
-            if (mensagemSemResultados) {
-                mensagemSemResultados.remove();
-            }
-        }
-    }
-
-    // Evento de input (digitação)
-    searchInput.addEventListener("input", executarPesquisa);
-
-    // Evento de clique no ícone de pesquisa
-    if (searchIcon) {
-        searchIcon.addEventListener("click", executarPesquisa);
-    }
-
-    // Limpar pesquisa com ESC
-    searchInput.addEventListener("keyup", function(e) {
-        if (e.key === "Escape") {
-            this.value = "";
-            executarPesquisa();
+        // Salvar no localStorage
+        localStorage.setItem('ultimaPesquisa', termoPesquisa);
+        
+        // Filtrar receitas
+        filtrarReceitas(termoPesquisa, receitas);
+    });
+    
+    // Limpar com Escape
+    campoPesquisa.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            limparPesquisa();
         }
     });
-
-    console.log("✅ Sistema de pesquisa inicializado!");
 }
+
+// Filtrar receitas
+function filtrarReceitas(termoPesquisa, receitas) {
+    let encontrouResultados = false;
+    
+    receitas.forEach(receita => {
+        const nomeReceita = receita.querySelector('p').textContent.toLowerCase();
+        
+        if (nomeReceita.includes(termoPesquisa)) {
+            receita.style.display = 'block';
+            encontrouResultados = true;
+        } else {
+            receita.style.display = 'none';
+        }
+    });
+    
+    // Mostrar mensagem se não encontrar nada
+    mostrarMensagem(encontrouResultados, termoPesquisa);
+}
+
+// Mostrar mensagem de nenhum resultado
+function mostrarMensagem(encontrouResultados, termoPesquisa) {
+    // Remover mensagem anterior
+    const mensagemAnterior = document.querySelector('.sem-resultados');
+    if (mensagemAnterior) {
+        mensagemAnterior.remove();
+    }
+    
+    // Adicionar nova mensagem se não encontrou resultados
+    if (!encontrouResultados && termoPesquisa) {
+        const divDireita = document.querySelector('.right');
+        const mensagem = document.createElement('div');
+        mensagem.className = 'sem-resultados';
+        mensagem.innerHTML = `
+            <p>Nenhuma receita encontrada para "<strong>${termoPesquisa}</strong>"</p>
+        `;
+        divDireita.appendChild(mensagem);
+    }
+}
+
+// Limpar pesquisa
+function limparPesquisa() {
+    const campoPesquisa = document.getElementById('searchInput');
+    campoPesquisa.value = '';
+    localStorage.setItem('ultimaPesquisa', '');
+    
+    // Mostrar todas as receitas
+    const receitas = document.querySelectorAll('.receitas');
+    receitas.forEach(receita => {
+        receita.style.display = 'block';
+    });
+    
+    // Remover mensagem
+    const mensagem = document.querySelector('.sem-resultados');
+    if (mensagem) {
+        mensagem.remove();
+    }
+}
+
+// Adicionar estilos básicos
+function adicionarEstilos() {
+    const estilo = document.createElement('style');
+    estilo.textContent = `
+        .sem-resultados {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .sem-resultados strong {
+            color: #333;
+        }
+    `;
+    document.head.appendChild(estilo);
+}
+
+// Iniciar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    adicionarEstilos();
+    iniciarPesquisa();
+});
 
 // Salvar dados das receitas no localStorage
 function saveRecipeData() {
