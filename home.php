@@ -26,7 +26,7 @@
 
                 <ul class="menu">
                     <li><a href="home.php"><i class="bi bi-house-door"></i> Início</a></li>
-                    <li><a href="minhas-receitas.html"><i class="bi bi-book"></i> Minhas receitas</a></li>
+                    <li><a href="minhas-receitas.php"><i class="bi bi-book"></i> Minhas receitas</a></li>
                     <li><a href="favoritos.php"><i class="bi bi-bookmark"></i> Favoritos</a></li>
                     <li><a href="perfil.html"><i class="bi bi-person-square"></i> Perfil</a></li>
                 </ul>

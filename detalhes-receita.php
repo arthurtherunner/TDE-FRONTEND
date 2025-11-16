@@ -212,11 +212,40 @@
         // Carregar dados da receita
         function loadRecipeDetails() {
             const recipeId = localStorage.getItem('selectedRecipe');
-            const recipesData = JSON.parse(localStorage.getItem('recipesData'));
-            const recipe = recipesData[recipeId];
+            console.log('🔍 Buscando receita com ID:', recipeId);
+            
+            if (!recipeId) {
+                document.getElementById('recipe-content').innerHTML = '<p>Nenhuma receita selecionada.</p>';
+                return;
+            }
+
+            // Buscar primeiro nas receitas padrão
+            let recipesData = JSON.parse(localStorage.getItem('recipesData')) || {};
+            console.log('📋 Receitas padrão:', recipesData);
+            let recipe = recipesData[recipeId];
+            
+            // Se não encontrou nas receitas padrão, buscar nas receitas do usuário
+            if (!recipe) {
+                const userRecipes = JSON.parse(localStorage.getItem('userRecipes')) || [];
+                console.log('👤 Receitas do usuário:', userRecipes);
+                recipe = userRecipes.find(rec => rec.id === recipeId);
+                
+                if (recipe) {
+                    console.log('✅ Receita encontrada nas receitas do usuário:', recipe);
+                }
+            } else {
+                console.log('✅ Receita encontrada nas receitas padrão:', recipe);
+            }
             
             if (!recipe) {
-                document.getElementById('recipe-content').innerHTML = '<p>Receita não encontrada.</p>';
+                document.getElementById('recipe-content').innerHTML = `
+                    <div style="text-align: center; padding: 50px;">
+                        <i class="bi bi-exclamation-triangle" style="font-size: 48px; color: #E27D60;"></i>
+                        <h2 style="color: #E27D60; margin: 20px 0;">Receita não encontrada</h2>
+                        <p>ID da receita: ${recipeId}</p>
+                        <p>A receita que você está tentando acessar não foi encontrada.</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -231,10 +260,13 @@
                 favoriteBtn.classList.add('favorited');
             }
 
+            // Garantir que a imagem tenha fallback
+            const recipeImage = recipe.image || 'assets/default-recipe.png';
+
             // Construir HTML da receita
             const recipeHTML = `
                 <div class="recipe-hero">
-                    <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
+                    <img src="${recipeImage}" alt="${recipe.name}" class="recipe-image" onerror="this.src='assets/default-recipe.png'">
                     <div class="recipe-info">
                         <h1 class="recipe-title">${recipe.name}</h1>
                         <p class="recipe-description">${recipe.description}</p>
@@ -259,7 +291,7 @@
                 <div class="content-section">
                     <h2 class="section-title">Ingredientes</h2>
                     <ul class="ingredients-list">
-                        ${recipe.ingredients.map(ingredient => 
+                        ${(recipe.ingredients || []).map(ingredient => 
                             `<li><i class="bi bi-check-circle" style="color: #E27D60;"></i> ${ingredient}</li>`
                         ).join('')}
                     </ul>
@@ -268,7 +300,7 @@
                 <div class="content-section">
                     <h2 class="section-title">Modo de Preparo</h2>
                     <ol class="instructions-list">
-                        ${recipe.instructions.map((instruction, index) => 
+                        ${(recipe.instructions || []).map((instruction, index) => 
                             `<li>
                                 <div class="instruction-number">${index + 1}</div>
                                 <span>${instruction}</span>
@@ -279,15 +311,31 @@
             `;
 
             document.getElementById('recipe-content').innerHTML = recipeHTML;
+            console.log('✅ Receita carregada com sucesso!');
         }
 
         // Funcionalidade do botão de favoritar
         document.getElementById('favoriteBtn').addEventListener('click', function() {
             const recipeId = localStorage.getItem('selectedRecipe');
-            const recipesData = JSON.parse(localStorage.getItem('recipesData'));
-            const recipe = recipesData[recipeId];
             
-            if (!recipe) return;
+            if (!recipeId) {
+                alert('Nenhuma receita selecionada.');
+                return;
+            }
+
+            // Buscar a receita em ambos os locais
+            let recipesData = JSON.parse(localStorage.getItem('recipesData')) || {};
+            let recipe = recipesData[recipeId];
+            
+            if (!recipe) {
+                const userRecipes = JSON.parse(localStorage.getItem('userRecipes')) || [];
+                recipe = userRecipes.find(rec => rec.id === recipeId);
+            }
+            
+            if (!recipe) {
+                alert('Receita não encontrada para favoritar.');
+                return;
+            }
 
             const favorites = JSON.parse(localStorage.getItem('userFavorites')) || [];
             const isFavorited = favorites.some(fav => fav.id === recipeId);
@@ -298,21 +346,33 @@
                 localStorage.setItem('userFavorites', JSON.stringify(updatedFavorites));
                 this.innerHTML = '<i class="bi bi-heart"></i> Favoritar';
                 this.classList.remove('favorited');
+                console.log('❌ Receita removida dos favoritos');
             } else {
                 // Adicionar aos favoritos
                 favorites.push({
                     id: recipe.id,
                     name: recipe.name,
-                    image: recipe.image
+                    image: recipe.image || 'assets/default-recipe.png'
                 });
                 localStorage.setItem('userFavorites', JSON.stringify(favorites));
                 this.innerHTML = '<i class="bi bi-heart-fill"></i> Favoritado';
                 this.classList.add('favorited');
+                console.log('✅ Receita adicionada aos favoritos');
             }
         });
 
         // Carregar a receita quando a página carregar
-        document.addEventListener('DOMContentLoaded', loadRecipeDetails);
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Página de detalhes carregada');
+            loadRecipeDetails();
+        });
+
+        // Debug: Mostrar todos os dados no localStorage
+        console.log('🔍 DEBUG - Dados no localStorage:');
+        console.log('selectedRecipe:', localStorage.getItem('selectedRecipe'));
+        console.log('recipesData:', JSON.parse(localStorage.getItem('recipesData') || '{}'));
+        console.log('userRecipes:', JSON.parse(localStorage.getItem('userRecipes') || '[]'));
+        console.log('userFavorites:', JSON.parse(localStorage.getItem('userFavorites') || '[]'));
     </script>
 </body>
 </html>

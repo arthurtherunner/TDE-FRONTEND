@@ -105,6 +105,7 @@ const RECIPES_DATA = {
 };
 
 // Sistema de Pesquisa
+// Sistema de Pesquisa SIMPLES E EFICAZ
 function iniciarPesquisa() {
     const searchInput = document.getElementById("searchInput");
     const searchIcon = document.getElementById("searchIcon");
@@ -120,14 +121,42 @@ function iniciarPesquisa() {
         const receitas = document.querySelectorAll(".receitas");
         let encontrouResultados = false;
 
-        receitas.forEach(receita => {
-            const nome = receita.querySelector("p").textContent.toLowerCase();
+        // Se o campo estiver vazio, mostrar todas as receitas
+        if (termo === '') {
+            receitas.forEach(receita => {
+                receita.style.display = "";
+                // Restaurar texto original (remover marcações)
+                const textoOriginal = receita.querySelector("p").textContent;
+                receita.querySelector("p").textContent = textoOriginal;
+            });
+            
+            const mensagemSemResultados = document.querySelector(".no-results");
+            if (mensagemSemResultados) {
+                mensagemSemResultados.remove();
+            }
+            return;
+        }
 
-            if (nome.includes(termo)) {
-                receita.style.display = ""; // volta ao padrão original
+        receitas.forEach(receita => {
+            const nomeElement = receita.querySelector("p");
+            const nomeOriginal = nomeElement.textContent;
+            const nome = nomeOriginal.toLowerCase();
+            
+            // Busca por qualquer parte do nome (mais flexível)
+            const corresponde = nome.includes(termo);
+            
+            if (corresponde) {
+                receita.style.display = "";
                 encontrouResultados = true;
+                
+                // Destacar o texto encontrado
+                const regex = new RegExp(`(${termo})`, 'gi');
+                const textoDestacado = nomeOriginal.replace(regex, '<mark style="background-color: #E27D60; color: white; padding: 2px 4px; border-radius: 3px;">$1</mark>');
+                nomeElement.innerHTML = textoDestacado;
             } else {
-                receita.style.display = "none"; 
+                receita.style.display = "none";
+                // Garantir que o texto volte ao normal
+                nomeElement.textContent = nomeOriginal;
             }
         });
 
@@ -139,12 +168,23 @@ function iniciarPesquisa() {
             if (!mensagemSemResultados) {
                 mensagemSemResultados = document.createElement('div');
                 mensagemSemResultados.className = 'no-results';
+                mensagemSemResultados.style.textAlign = 'center';
+                mensagemSemResultados.style.padding = '2rem';
+                mensagemSemResultados.style.color = '#666';
+                
                 mensagemSemResultados.innerHTML = `
-                    <i class="bi bi-search"></i>
-                    <p>Nenhuma receita encontrada para "${termo}"</p>
-                    <p>Tente buscar por outro termo</p>
+                    <i class="bi bi-search" style="font-size: 3rem; color: #E27D60; margin-bottom: 1rem;"></i>
+                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">Nenhuma receita encontrada para "<strong style="color: #E27D60;">${termo}</strong>"</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Dica: tente buscar por palavras mais simples</p>
                 `;
                 recipesContainer.appendChild(mensagemSemResultados);
+            } else {
+                // Atualizar o termo na mensagem existente
+                mensagemSemResultados.innerHTML = `
+                    <i class="bi bi-search" style="font-size: 3rem; color: #E27D60; margin-bottom: 1rem;"></i>
+                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">Nenhuma receita encontrada para "<strong style="color: #E27D60;">${termo}</strong>"</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Dica: tente buscar por palavras mais simples</p>
+                `;
             }
         } else {
             if (mensagemSemResultados) {
@@ -153,7 +193,7 @@ function iniciarPesquisa() {
         }
     }
 
-    // Evento de input (digitação)
+    // Evento de input (digitação) - BUSCA EM TEMPO REAL
     searchInput.addEventListener("input", executarPesquisa);
 
     // Evento de clique no ícone de pesquisa
@@ -166,10 +206,17 @@ function iniciarPesquisa() {
         if (e.key === "Escape") {
             this.value = "";
             executarPesquisa();
+            this.focus();
+        }
+        if (e.key === "Enter") {
+            executarPesquisa();
         }
     });
 
-    console.log("✅ Sistema de pesquisa inicializado!");
+    // Focar no input quando a função for chamada
+    searchInput.focus();
+
+    console.log("✅ Sistema de pesquisa EFICAZ inicializado!");
 }
 
 // Salvar dados das receitas no localStorage
@@ -269,6 +316,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateHeartsVisual();
     saveRecipeData();
     iniciarPesquisa();
+    loadUserRecipesInHome(); 
 
     // Adicionar evento de clique nas receitas (imagem e nome)
     document.querySelectorAll('.receitas img, .desc p').forEach(element => {
@@ -344,3 +392,38 @@ closeBtn.addEventListener("click", () => {
     openBtn.style.display = "block";
     sidebar.classList.remove("active");
 });
+
+// Carregar receitas do usuário na home
+function loadUserRecipesInHome() {
+    const userRecipes = JSON.parse(localStorage.getItem('userRecipes')) || [];
+    const recipesContainer = document.getElementById('recipes-container');
+    
+    userRecipes.forEach(recipe => {
+        const recipeElement = document.createElement('div');
+        recipeElement.className = 'receitas';
+        recipeElement.setAttribute('data-id', recipe.id);
+        recipeElement.innerHTML = `
+            <img src="${recipe.image || 'assets/default-recipe.png'}" alt="${recipe.name}" onerror="this.src='assets/default-recipe.png'">
+            <div class="desc">
+                <p>${recipe.name}</p>
+                <i class="bi bi-heart" data-id="${recipe.id}"></i>
+            </div>
+        `;
+        recipesContainer.appendChild(recipeElement);
+    });
+    
+    // Re-aplicar event listeners para as novas receitas
+    applyRecipeEventListeners();
+}
+
+// Aplicar event listeners para todas as receitas
+function applyRecipeEventListeners() {
+    // Evento de clique nas receitas (imagem e nome)
+    document.querySelectorAll('.receitas img, .desc p').forEach(element => {
+        element.addEventListener('click', function() {
+            const recipeElement = this.closest('.receitas');
+            const recipeId = recipeElement.getAttribute('data-id');
+            redirectToRecipeDetails(recipeId);
+        });
+    });
+} 
