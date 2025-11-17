@@ -211,7 +211,6 @@
         font-size: 22px;
     }
 
-    /* Menu */
     .menu {
         list-style: none;
         margin-top: 40px;
@@ -237,7 +236,6 @@
         background-color: #E88A70;
     }
 
-    /* Botão Sair */
     .logout {
         list-style: none;
         margin-bottom: 10px;
@@ -259,7 +257,6 @@
         background-color: #E88A70;
     }
 
-    /* Botão de abrir */
     .open-btn {
         position: absolute;
         top: 20px;

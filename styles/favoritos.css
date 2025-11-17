@@ -171,12 +171,10 @@
             z-index: 1000;
         }
 
-        /* Sidebar ativa  */
         #sidebar.active {
             transform: translateX(0);
         }
 
-        /* Ícone de fechar */
         .close-btn {
             position: absolute;
             top: 15px;
@@ -189,7 +187,6 @@
             display: block;
         }
 
-        /* Seção do usuário */
         .user-section {
             display: flex;
             flex-direction: column;
@@ -206,7 +203,6 @@
             font-size: 22px;
         }
 
-        /* Menu */
         .menu {
             list-style: none;
             margin-top: 40px;
@@ -232,7 +228,6 @@
             background-color: #E88A70;
         }
 
-        /* Botão Sair */
         .logout {
             list-style: none;
             margin-bottom: 10px;
@@ -254,7 +249,6 @@
             background-color: #E88A70;
         }
 
-        /* Botão de abrir */
         .open-btn {
             position: absolute;
             top: 20px;
@@ -267,7 +261,6 @@
             z-index: 1100;
         }
 
-        /* Estilos específicos para a página de favoritos */
         .page-title {
             margin: 20px 0;
             color: #E27D60;

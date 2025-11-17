@@ -132,7 +132,6 @@
             z-index: 1100;
         }
 
-        /* Conteúdo Principal */
         .right-total {
             width: calc(100% - 320px);
             margin-left: 320px;
@@ -147,7 +146,6 @@
             margin-bottom: 30px;
         }
 
-        /* Formulário de Nova Receita */
         .form-container {
             background: white;
             padding: 30px;
@@ -203,7 +201,6 @@
             min-height: 80px;
         }
 
-        /* Ingredientes e Instruções Dinâmicas */
         .dynamic-list {
             margin-top: 10px;
         }
@@ -248,7 +245,6 @@
             background: #218838;
         }
 
-        /* Botões */
         .btn-primary {
             background: #E27D60;
             color: white;
@@ -267,7 +263,6 @@
             background: #d2694d;
         }
 
-        /* Minhas Receitas Salvas */
         .my-recipes-container {
             background: white;
             padding: 30px;
@@ -338,7 +333,6 @@
             color: #E27D60;
         }
 
-        /* Responsividade */
         @media (min-width: 992px) {
             #sidebar {
                 transform: translateX(0);
