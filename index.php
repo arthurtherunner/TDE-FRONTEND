@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receitas</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
-<link rel="stylesheet" href="styles/style.css">
-<link rel="stylesheet" href="styles/responsive.css">
 <body>
     <div class="container">
         <div class="left">
@@ -17,7 +16,7 @@
             <p>Entre e visualize suas receitas favoritas!</p>
         </div>
 
-        <div class="right">
+        <div class="right login-section">
             <span><h2>LOGIN</h2></span>
 
             <form action="backend/teste-login.php" method="POST">
