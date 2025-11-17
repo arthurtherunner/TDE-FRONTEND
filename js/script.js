@@ -2,7 +2,7 @@ const sidebar = document.getElementById("sidebar");
 const openBtn = document.getElementById("openBtn");
 const closeBtn = document.getElementById("closeBtn");
 
-// Sistema de Detalhes da Receita
+// descriçao dos detalhes da receita
 const RECIPES_DATA = {
     '1': {
         id: '1',
@@ -104,128 +104,54 @@ const RECIPES_DATA = {
     }
 };
 
-// Sistema de Pesquisa
-// Sistema de Pesquisa SIMPLES E EFICAZ
+// parte de pesquisa
 function iniciarPesquisa() {
     const campoPesquisa = document.getElementById('searchInput');
     const receitas = document.querySelectorAll('.receitas');
     
-    // Carregar última pesquisa do localStorage
     const ultimaPesquisa = localStorage.getItem('ultimaPesquisa') || '';
     campoPesquisa.value = ultimaPesquisa;
     
-    // Aplicar filtro se houver última pesquisa
     if (ultimaPesquisa) {
         filtrarReceitas(ultimaPesquisa, receitas);
     }
     
-    // Pesquisa em tempo real
     campoPesquisa.addEventListener('input', function(e) {
         const termoPesquisa = e.target.value.toLowerCase().trim();
         
-        // Salvar no localStorage
         localStorage.setItem('ultimaPesquisa', termoPesquisa);
         
-        // Filtrar receitas
         filtrarReceitas(termoPesquisa, receitas);
     });
     
-    // Limpar com Escape
-    campoPesquisa.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            limparPesquisa();
-        }
-    });
+
 }
 
-    // Função para executar a pesquisa
-    function executarPesquisa() {
-        const termo = searchInput.value.toLowerCase().trim();
-        const receitas = document.querySelectorAll(".receitas");
-        let encontrouResultados = false;
-
-        // Se o campo estiver vazio, mostrar todas as receitas
-        if (termo === '') {
-            receitas.forEach(receita => {
-                receita.style.display = "";
-                // Restaurar texto original (remover marcações)
-                const textoOriginal = receita.querySelector("p").textContent;
-                receita.querySelector("p").textContent = textoOriginal;
-            });
-            
-            const mensagemSemResultados = document.querySelector(".no-results");
-            if (mensagemSemResultados) {
-                mensagemSemResultados.remove();
-            }
-            return;
-        }
-
-        receitas.forEach(receita => {
-            const nomeElement = receita.querySelector("p");
-            const nomeOriginal = nomeElement.textContent;
-            const nome = nomeOriginal.toLowerCase();
-            
-            // Busca por qualquer parte do nome (mais flexível)
-            const corresponde = nome.includes(termo);
-            
-            if (corresponde) {
-                receita.style.display = "";
-                encontrouResultados = true;
-                
-                // Destacar o texto encontrado
-                const regex = new RegExp(`(${termo})`, 'gi');
-                const textoDestacado = nomeOriginal.replace(regex, '<mark style="background-color: #E27D60; color: white; padding: 2px 4px; border-radius: 3px;">$1</mark>');
-                nomeElement.innerHTML = textoDestacado;
-            } else {
-                receita.style.display = "none";
-                // Garantir que o texto volte ao normal
-                nomeElement.textContent = nomeOriginal;
-            }
-        });
-
-        // Mostrar mensagem se não houver resultados
-        const recipesContainer = document.getElementById("recipes-container");
-        let mensagemSemResultados = recipesContainer.querySelector(".no-results");
+// Filtrar receitas
+function filtrarReceitas(termoPesquisa, receitas) {
+    let encontrouResultados = false;
+    
+    receitas.forEach(receita => {
+        const nomeReceita = receita.querySelector('p').textContent.toLowerCase();
         
-        if (!encontrouResultados && termo !== '') {
-            if (!mensagemSemResultados) {
-                mensagemSemResultados = document.createElement('div');
-                mensagemSemResultados.className = 'no-results';
-                mensagemSemResultados.style.textAlign = 'center';
-                mensagemSemResultados.style.padding = '2rem';
-                mensagemSemResultados.style.color = '#666';
-                
-                mensagemSemResultados.innerHTML = `
-                    <i class="bi bi-search" style="font-size: 3rem; color: #E27D60; margin-bottom: 1rem;"></i>
-                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">Nenhuma receita encontrada para "<strong style="color: #E27D60;">${termo}</strong>"</p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Dica: tente buscar por palavras mais simples</p>
-                `;
-                recipesContainer.appendChild(mensagemSemResultados);
-            } else {
-                // Atualizar o termo na mensagem existente
-                mensagemSemResultados.innerHTML = `
-                    <i class="bi bi-search" style="font-size: 3rem; color: #E27D60; margin-bottom: 1rem;"></i>
-                    <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">Nenhuma receita encontrada para "<strong style="color: #E27D60;">${termo}</strong>"</p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Dica: tente buscar por palavras mais simples</p>
-                `;
-            }
+        if (nomeReceita.includes(termoPesquisa)) {
+            receita.style.display = 'block';
+            encontrouResultados = true;
         } else {
             receita.style.display = 'none';
         }
-    }
+    });
+    
+    mostrarMensagem(encontrouResultados, termoPesquisa);
+}
 
-    // Evento de input (digitação) - BUSCA EM TEMPO REAL
-    searchInput.addEventListener("input", executarPesquisa);
-
-// Mostrar mensagem de nenhum resultado
 function mostrarMensagem(encontrouResultados, termoPesquisa) {
-    // Remover mensagem anterior
+    // remover mensagem anterior o localstorage
     const mensagemAnterior = document.querySelector('.sem-resultados');
     if (mensagemAnterior) {
         mensagemAnterior.remove();
     }
     
-    // Adicionar nova mensagem se não encontrou resultados
     if (!encontrouResultados && termoPesquisa) {
         const divDireita = document.querySelector('.right');
         const mensagem = document.createElement('div');
@@ -237,137 +163,60 @@ function mostrarMensagem(encontrouResultados, termoPesquisa) {
     }
 }
 
-    // Limpar pesquisa com ESC
-    searchInput.addEventListener("keyup", function(e) {
-        if (e.key === "Escape") {
-            this.value = "";
-            executarPesquisa();
-            this.focus();
+function adicionarEstilos() {
+    const estilo = document.createElement('style');
+    estilo.textContent = `
+        .sem-resultados {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 1.1rem;
         }
-        if (e.key === "Enter") {
-            executarPesquisa();
+        
+        .sem-resultados strong {
+            color: #333;
         }
-    });
-    
-    // Remover mensagem
-    const mensagem = document.querySelector('.sem-resultados');
-    if (mensagem) {
-        mensagem.remove();
-    }
+    `;
+    document.head.appendChild(estilo);
 }
 
-    // Focar no input quando a função for chamada
-    searchInput.focus();
-
-    console.log("✅ Sistema de pesquisa EFICAZ inicializado!");
-}
-
-// Iniciar quando a página carregar
-document.addEventListener('DOMContentLoaded', function() {
-    adicionarEstilos();
-    iniciarPesquisa();
-});
-
-// Salvar dados das receitas no localStorage
+// salvar as receitas no localstorage
 function saveRecipeData() {
     localStorage.setItem('recipesData', JSON.stringify(RECIPES_DATA));
 }
 
-// Redirecionar para página de detalhes
+// direcionar para página de detalhes
 function redirectToRecipeDetails(recipeId) {
-    // Salvar a receita selecionada no localStorage
     localStorage.setItem('selectedRecipe', recipeId);
-    // Redirecionar para a página de detalhes
     window.location.href = 'detalhes-receita.php';
 }
 
-// Sistema de Favoritos
-const FAVORITES_KEY = "userFavorites";
-
-// Inicializar favoritos
-function initializeFavorites() {
-    if (!localStorage.getItem(FAVORITES_KEY)) {
-        const defaultFavorites = [];
-        localStorage.setItem(FAVORITES_KEY, JSON.stringify(defaultFavorites));
-    }
-}
-
-// Obter lista de favoritos
-function getFavorites() {
-    return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
-}
-
-// Salvar favoritos
-function saveFavorites(favorites) {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
-}
-
-// Verificar se uma receita é favorita
-function isFavorite(recipeId) {
-    const favorites = getFavorites();
-    return favorites.some((fav) => fav.id === recipeId);
-}
-
-// Adicionar aos favoritos
-function addToFavorites(recipeId, recipeName, recipeImage) {
-    const favorites = getFavorites();
-    if (!isFavorite(recipeId)) {
-        favorites.push({
-            id: recipeId,
-            name: recipeName,
-            image: recipeImage,
-        });
-        saveFavorites(favorites);
-        return true;
-    }
-    return false;
-}
-
-// Remover dos favoritos
-function removeFromFavorites(recipeId) {
-    let favorites = getFavorites();
-    favorites = favorites.filter((fav) => fav.id !== recipeId);
-    saveFavorites(favorites);
-}
-
-// Alternar favorito
-function toggleFavorite(recipeId, recipeName, recipeImage) {
-    if (isFavorite(recipeId)) {
-        removeFromFavorites(recipeId);
-        return false;
-    } else {
-        addToFavorites(recipeId, recipeName, recipeImage);
-        return true;
-    }
-}
-
-// Atualizar visual dos corações
-function updateHeartsVisual() {
-    document.querySelectorAll(".receitas").forEach((recipeElement) => {
-        const recipeId = recipeElement.getAttribute("data-id");
-        const heartIcon = recipeElement.querySelector(".bi-heart");
-
-        if (isFavorite(recipeId)) {
-            heartIcon.classList.add("bi-heart-fill", "favorite-heart");
-            heartIcon.classList.remove("bi-heart");
-        } else {
-            heartIcon.classList.add("bi-heart");
-            heartIcon.classList.remove("bi-heart-fill", "favorite-heart");
-        }
-    });
-}
-
-// Inicializar a página
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("🚀 Inicializando página...");
+// subir receitas do usuario no home
+function loadUserRecipesInHome() {
+    const userRecipes = JSON.parse(localStorage.getItem('userRecipes')) || [];
+    const recipesContainer = document.querySelector('.right');
     
-    initializeFavorites();
-    updateHeartsVisual();
-    saveRecipeData();
-    iniciarPesquisa();
-    loadUserRecipesInHome(); 
+    userRecipes.forEach(recipe => {
+        const recipeElement = document.createElement('div');
+        recipeElement.className = 'receitas';
+        recipeElement.setAttribute('data-id', recipe.id);
+        recipeElement.innerHTML = `
+            <img src="${recipe.image || 'assets/default-recipe.png'}" alt="${recipe.name}" onerror="this.src='assets/default-recipe.png'">
+            <div class="desc">
+                <p>${recipe.name}</p>
+                <i class="bi bi-heart" data-id="${recipe.id}"></i>
+            </div>
+        `;
+        recipesContainer.appendChild(recipeElement);
+    });
+    
+    // event listeners para as as receitas adicionadas
+    applyRecipeEventListeners();
+}
 
-    // Adicionar evento de clique nas receitas (imagem e nome)
+// event listener em todas as receitas
+function applyRecipeEventListeners() {
+    // função de clicar nas receitas
     document.querySelectorAll('.receitas img, .desc p').forEach(element => {
         element.addEventListener('click', function() {
             const recipeElement = this.closest('.receitas');
@@ -375,8 +224,18 @@ document.addEventListener("DOMContentLoaded", function () {
             redirectToRecipeDetails(recipeId);
         });
     });
+}
 
-    // Configurar eventos dos corações
+// Inicializar a página
+document.addEventListener("DOMContentLoaded", function () {
+    
+    initializeFavorites();
+    updateHeartsVisual();
+    saveRecipeData();
+    iniciarPesquisa();
+    loadUserRecipesInHome(); 
+
+    // funçao dos coraçoes
     document.querySelectorAll(".bi-heart, .bi-heart-fill").forEach((heart) => {
         heart.addEventListener("click", function (e) {
             e.stopPropagation();
@@ -388,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const isNowFavorite = toggleFavorite(recipeId, recipeName, recipeImage);
 
-            // Atualizar visual do coração
+            // visual do coração
             if (isNowFavorite) {
                 this.classList.add("bi-heart-fill", "favorite-heart");
                 this.classList.remove("bi-heart");
@@ -396,16 +255,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 this.classList.add("bi-heart");
                 this.classList.remove("bi-heart-fill", "favorite-heart");
             }
-
-            // Feedback visual
-            this.style.transform = "scale(1.3)";
-            setTimeout(() => {
-                this.style.transform = "scale(1)";
-            }, 300);
         });
     });
 
-    // Funcionalidade do menu lateral
+    // funçao doo sidebar na resposividade
     const sidebar = document.getElementById("sidebar");
     const openBtn = document.getElementById("openBtn");
     const closeBtn = document.getElementById("closeBtn");
@@ -428,7 +281,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    console.log("✅ Página inicializada com sucesso!");
 });
 
 // Menu lateral
@@ -441,38 +293,3 @@ closeBtn.addEventListener("click", () => {
     openBtn.style.display = "block";
     sidebar.classList.remove("active");
 });
-
-// Carregar receitas do usuário na home
-function loadUserRecipesInHome() {
-    const userRecipes = JSON.parse(localStorage.getItem('userRecipes')) || [];
-    const recipesContainer = document.getElementById('recipes-container');
-    
-    userRecipes.forEach(recipe => {
-        const recipeElement = document.createElement('div');
-        recipeElement.className = 'receitas';
-        recipeElement.setAttribute('data-id', recipe.id);
-        recipeElement.innerHTML = `
-            <img src="${recipe.image || 'assets/default-recipe.png'}" alt="${recipe.name}" onerror="this.src='assets/default-recipe.png'">
-            <div class="desc">
-                <p>${recipe.name}</p>
-                <i class="bi bi-heart" data-id="${recipe.id}"></i>
-            </div>
-        `;
-        recipesContainer.appendChild(recipeElement);
-    });
-    
-    // Re-aplicar event listeners para as novas receitas
-    applyRecipeEventListeners();
-}
-
-// Aplicar event listeners para todas as receitas
-function applyRecipeEventListeners() {
-    // Evento de clique nas receitas (imagem e nome)
-    document.querySelectorAll('.receitas img, .desc p').forEach(element => {
-        element.addEventListener('click', function() {
-            const recipeElement = this.closest('.receitas');
-            const recipeId = recipeElement.getAttribute('data-id');
-            redirectToRecipeDetails(recipeId);
-        });
-    });
-} 

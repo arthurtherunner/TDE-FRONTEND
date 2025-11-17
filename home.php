@@ -84,5 +84,6 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script src="js/favoritos.js"></script>
 </body>
 </html>
