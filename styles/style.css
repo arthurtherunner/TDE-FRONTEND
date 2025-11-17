@@ -167,16 +167,6 @@ a:hover{
     text-decoration: underline;
     font-weight: bold;
 }
-.new::after{
-    position: absolute;
-    content: '';
-    background-color: #ffc481;
-    width:15.5rem;
-    height: 5px;
-    bottom: 0;
-    left: 0;
-    margin: 3px;
-}
 
 .inicio::after{
     position: absolute;
@@ -189,12 +179,51 @@ a:hover{
     margin: 3px;
 }
 
+.formCadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Garante que inputs e mensagens de erro tenham a mesma largura */
+.formCadastro input[type=email], .formCadastro input[type=text], .formCadastro input[type=password],
+.formCadastro .erro {
+    width: 70%;
+    max-width: 400px;
+}
+
+/* Mensagens de erro alinhadas */
 .erro {
-    color: red;
-    font-size: 12px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: block;
+    width: 70%;
+    max-width: 400px;
+    margin: 2px 0 8px 0;
+    text-align: center;
+    min-height: 18px; /* Mantém espaço mesmo quando vazia */
+}
+
+/* Botão do cadastro com mesma largura */
+.formCadastro button {
+    width: 70%;
+    max-width: 400px;
+}
+
+/* Centraliza a linha do título "Criar conta" */
+.new {
+    position: relative;
+    display: inline-block;
+}
+
+.new::after {
+    position: absolute;
+    content: '';
+    background-color: #ffc481;
+    width: 15.5rem;
+    height: 5px;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 3px;
 }
 
 /* RESPONSIVIDADE */
@@ -355,4 +384,25 @@ button:hover {
     font-size: 14px;
 }
 
+}
+
+/* RESPONSIVIDADE PARA O CADASTRO */
+@media (max-width: 768px) {
+#formCadastro input[type=email], #formCadastro input[type=text], #formCadastro input[type=password],
+#formCadastro .erro, #formCadastro button {
+    width: 100%;
+    max-width: 400px;
+}
+    
+.erro {
+    width: 100%;
+    max-width: 400px;
+}
+
+}
+
+@media (max-width: 480px) {
+.new::after {
+    width: 12rem;
+}
 }
