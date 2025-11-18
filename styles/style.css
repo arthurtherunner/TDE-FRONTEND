@@ -186,29 +186,25 @@ a:hover{
     width: 100%;
 }
 
-/* Garante que inputs e mensagens de erro tenham a mesma largura */
 .formCadastro input[type=email], .formCadastro input[type=text], .formCadastro input[type=password],
 .formCadastro .erro {
     width: 70%;
     max-width: 400px;
 }
 
-/* Mensagens de erro alinhadas */
 .erro {
     width: 70%;
     max-width: 400px;
     margin: 2px 0 8px 0;
     text-align: center;
-    min-height: 18px; /* Mantém espaço mesmo quando vazia */
+    min-height: 18px; 
 }
 
-/* Botão do cadastro com mesma largura */
 .formCadastro button {
     width: 70%;
     max-width: 400px;
 }
 
-/* Centraliza a linha do título "Criar conta" */
 .new {
     position: relative;
     display: inline-block;
